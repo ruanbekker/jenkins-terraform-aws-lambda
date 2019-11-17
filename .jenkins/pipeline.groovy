@@ -19,11 +19,16 @@ pipeline {
     stage('TerraformStep') {
       steps {
         script {
-          sh '''echo "START [terraform-step]: start of testing function"
+          docker.image('lambci/lambda:build-python3.7').inside('--privileged --user root -e AWS_REGION="eu-west-1"'){
+            sh '''echo "START [terraform-step]: start of step"
                 bash bin/setup_aws_environment.sh
-                bash bin/test_function.sh
-                echo "END [terraform-step]: end of testing function"
-             '''
+                yum install wget -y
+                wget https://releases.hashicorp.com/terraform/0.12.15/terraform_0.12.15_linux_amd64.zip
+                unzip terraform_0.12.12_linux_amd64.zip -d /usr/bin
+                bash deploy.sh
+                echo "END [terraform-step]: end of step"
+               '''
+          }
         }
       }
     }
