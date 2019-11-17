@@ -4,5 +4,5 @@ pushd lambda
 ./build.sh
 popd
 
-terraform init
+terraform init -upgrade
 terraform apply -auto-approve
