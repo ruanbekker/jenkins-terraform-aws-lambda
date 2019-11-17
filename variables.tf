@@ -1,5 +1,5 @@
 variable "bucket_name" {
-  default = "my-terraform-state-storage-dev"
+  default = "rb-terraform-state-storage-dev"
 }
 
 variable "dynamodb_table" {
