@@ -43,6 +43,7 @@ pipeline {
                 unzip terraform_0.12.15_linux_amd64.zip -d /usr/bin
                 sh deploy.sh
                 echo "END [terraform-step]: end of step"
+                rm -rf /tmp/.aws
                '''
           }
         }
