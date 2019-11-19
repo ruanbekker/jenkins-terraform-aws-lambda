@@ -38,7 +38,7 @@ pipeline {
                 sh bin/setup_aws_environment.sh
                 aws --profile dev s3 ls /
                 wget https://releases.hashicorp.com/terraform/0.12.15/terraform_0.12.15_linux_amd64.zip
-                unzip terraform_0.12.15_linux_amd64.zip -d /usr/bin
+                unzip terraform_0.12.15_linux_amd64.zip -d /tmp
                 sh deploy.sh
                 echo "END [terraform-step]: end of step"
                 rm -rf /tmp/.aws
