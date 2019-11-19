@@ -15,5 +15,6 @@ role_arn=${AWS_CROSS_ACCOUNT_ROLE_ARN}
 source_profile=master
 region=${AWS_REGION}
 EOF
-
+echo "setup aws env script"
+aws --profile dev s3 ls /
 python3 -m ensurepip
