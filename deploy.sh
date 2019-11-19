@@ -10,5 +10,5 @@ pushd lambda
 popd
 
 rm -rf ~/.terraform
-terraform init -upgrade
+AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws AWS_PROFILE=dev TF_LOG=DEBUG terraform init
 terraform apply -auto-approve
