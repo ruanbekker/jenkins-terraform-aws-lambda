@@ -16,12 +16,21 @@ pipeline {
   }
   
   stages{
+
+    stage('SetupAwsEnv') {
+      steps {
+        script {
+          sh '''
+             sh bin/setup_aws_environment.sh
+             '''
+        }
+      }
+    }
     stage('TerraformStep') {
       steps {
         script {
-          docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= -e AWS_REGION="eu-west-1"'){
+          docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= -v /tmp/.aws:/tmp/.aws -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
-                sh bin/setup_aws_environment.sh
                 export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
                 echo "pipeline step"
                 aws --profile dev s3 ls /
@@ -31,6 +40,15 @@ pipeline {
                 echo "END [terraform-step]: end of step"
                '''
           }
+        }
+      }
+    }
+    stage('CleanUp') {
+      steps {
+        script {
+          sh '''
+             rm -rf /tmp/.aws
+             '''
         }
       }
     }
