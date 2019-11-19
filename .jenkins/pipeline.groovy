@@ -31,6 +31,9 @@ pipeline {
         script {
           docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= -v /tmp/.aws:/tmp/.aws -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
+                echo "env test"
+                echo "The slack channel is: ${SLACK_CHANNEL}"
+                chown root:root /tmp/.aws
                 export AWS_REGION=eu-west-1
                 export AWS_DEFAULT_REGION=eu-west-1
                 export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
