@@ -9,5 +9,6 @@ pushd lambda
 ./build.sh
 popd
 
+rm -rf ~/.terraform
 terraform init -upgrade
 terraform apply -auto-approve
