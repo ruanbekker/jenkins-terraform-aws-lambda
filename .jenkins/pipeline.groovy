@@ -19,7 +19,7 @@ pipeline {
     stage('TerraformStep') {
       steps {
         script {
-          docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint /bin/sh -e AWS_REGION="eu-west-1"'){
+          docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
                 sh bin/setup_aws_environment.sh
                 export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
