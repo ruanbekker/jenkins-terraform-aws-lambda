@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
+rm -rf /tmp
 export AWS_REGION=eu-west-1
 export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
 mkdir -p /tmp
