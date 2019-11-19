@@ -16,4 +16,4 @@ source_profile=master
 region=${AWS_REGION}
 EOF
 
-python3 -m ensurepip
+#python3 -m ensurepip
