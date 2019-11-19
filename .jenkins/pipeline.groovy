@@ -31,6 +31,7 @@ pipeline {
         script {
           docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= -v /tmp/.aws:/tmp/.aws -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
+                export AWS_REGION=eu-west-1
                 export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
                 echo "pipeline step"
                 aws --profile dev s3 ls /

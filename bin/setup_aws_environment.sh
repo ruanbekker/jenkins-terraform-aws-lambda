@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
+export AWS_REGION=eu-west-1
 export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
 mkdir -p /tmp
 touch ${AWS_SHARED_CREDENTIALS_FILE}
@@ -16,4 +17,5 @@ source_profile=master
 region=${AWS_REGION}
 EOF
 
+aws --profile dev s3 ls /
 #python3 -m ensurepip
