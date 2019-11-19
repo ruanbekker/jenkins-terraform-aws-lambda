@@ -17,5 +17,4 @@ source_profile=master
 region=${AWS_REGION}
 EOF
 
-aws --profile dev s3 ls /
 #python3 -m ensurepip
