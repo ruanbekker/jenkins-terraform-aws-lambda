@@ -22,6 +22,8 @@ pipeline {
           docker.image('lambci/lambda:build-python3.7').inside('--privileged --user root -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
                 bash bin/setup_aws_environment.sh
+                export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
+                echo "pipeline step"
                 aws --profile dev s3 ls /
                 yum install wget -y
                 wget https://releases.hashicorp.com/terraform/0.12.15/terraform_0.12.15_linux_amd64.zip
