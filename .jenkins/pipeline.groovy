@@ -21,7 +21,7 @@ pipeline {
       steps {
         script {
           sh '''
-             sh bin/setup_aws_environment.sh
+             echo setup
              '''
         }
       }
@@ -31,13 +31,11 @@ pipeline {
         script {
           docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= -v /tmp/.aws:/tmp/.aws -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
-                echo "env test"
-                echo "The slack channel is: ${SLACK_CHANNEL}"
-                chown root:root /tmp/.aws
                 export AWS_REGION=eu-west-1
                 export AWS_DEFAULT_REGION=eu-west-1
                 export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
                 echo "pipeline step"
+                sh bin/setup_aws_environment.sh
                 aws --profile dev s3 ls /
                 wget https://releases.hashicorp.com/terraform/0.12.15/terraform_0.12.15_linux_amd64.zip
                 unzip terraform_0.12.15_linux_amd64.zip -d /usr/bin

@@ -6,6 +6,8 @@ export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
 mkdir -p /tmp
 touch ${AWS_SHARED_CREDENTIALS_FILE}
 
+echo ${AWS_ACCESS_KEY} | wc -l
+
 cat > ${AWS_SHARED_CREDENTIALS_FILE} << EOF
 [master]
 aws_access_key_id=${AWS_ACCESS_KEY}
