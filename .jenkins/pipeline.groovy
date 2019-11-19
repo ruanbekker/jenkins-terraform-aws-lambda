@@ -29,7 +29,7 @@ pipeline {
     stage('TerraformStep') {
       steps {
         script {
-          docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= -v /tmp/.aws:/tmp/.aws -e AWS_REGION="eu-west-1"'){
+          docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint=  -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
                 export AWS_REGION=eu-west-1
                 export AWS_DEFAULT_REGION=eu-west-1
