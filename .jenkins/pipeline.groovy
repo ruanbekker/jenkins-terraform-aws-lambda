@@ -22,6 +22,7 @@ pipeline {
         script {
           docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= --privileged --user root -e AWS_REGION="eu-west-1"'){
           sh '''
+             apk update && apk add zip
              export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
              cd lambda
              mkdir -p packages/
