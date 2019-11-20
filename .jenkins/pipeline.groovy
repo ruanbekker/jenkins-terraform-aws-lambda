@@ -20,9 +20,24 @@ pipeline {
     stage('SetupAwsEnv') {
       steps {
         script {
+          docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= --privileged --user root -e AWS_REGION="eu-west-1"'){
           sh '''
-             echo setup
+             export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
+             cd lambda
+             mkdir -p packages/
+             mkdir -p lambda/layer-requests/python
+             virtualenv .venv -p $(which python)
+             source .venv/bin/activate
+             pip3 install -r lambda/layer-requests/requirements.txt --no-deps -t lambda/layer-requests/python/
+             deactivate .venv
+             rm -rf .venv
+             zip -r lambda/packages/python3-requests.zip lambda/layer-requests/python/
+             rm -rf lambda/layer-requests/python
+             cd ..
+             AWS_PROFILE=dev TF_LOG=DEBUG terraform init -upgrade
+             terraform apply -auto-approve
              '''
+          }
         }
       }
     }
@@ -31,17 +46,17 @@ pipeline {
         script {
           docker.image('ruanbekker/build-tools:v2').inside('-it --entrypoint= --privileged --user root -e AWS_REGION="eu-west-1"'){
             sh '''echo "START [terraform-step]: start of step"
-                export AWS_REGION=eu-west-1
-                export AWS_DEFAULT_REGION=eu-west-1
-                export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
-                echo "pipeline step"
-                sh bin/setup_aws_environment.sh
-                aws --profile dev s3 ls /
-                wget https://releases.hashicorp.com/terraform/0.12.15/terraform_0.12.15_linux_amd64.zip
-                unzip terraform_0.12.15_linux_amd64.zip -d /tmp
-                sh deploy.sh
-                echo "END [terraform-step]: end of step"
-                rm -rf /tmp/.aws
+                #export AWS_REGION=eu-west-1
+                #export AWS_DEFAULT_REGION=eu-west-1
+                #export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
+                #echo "pipeline step"
+                #sh bin/setup_aws_environment.sh
+                #aws --profile dev s3 ls /
+                #wget https://releases.hashicorp.com/terraform/0.12.15/terraform_0.12.15_linux_amd64.zip
+                #unzip terraform_0.12.15_linux_amd64.zip -d /tmp
+                #sh deploy.sh
+                #echo "END [terraform-step]: end of step"
+                #rm -rf /tmp/.aws
                '''
           }
         }
