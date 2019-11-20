@@ -26,9 +26,10 @@ pipeline {
              cd lambda
              mkdir -p packages/
              mkdir -p lambda/layer-requests/python
+             pip install virtualenv
              virtualenv .venv -p $(which python)
              source .venv/bin/activate
-             pip3 install -r lambda/layer-requests/requirements.txt --no-deps -t lambda/layer-requests/python/
+             pip install -r lambda/layer-requests/requirements.txt --no-deps -t lambda/layer-requests/python/
              deactivate .venv
              rm -rf .venv
              zip -r lambda/packages/python3-requests.zip lambda/layer-requests/python/
