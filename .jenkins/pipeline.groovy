@@ -25,15 +25,15 @@ pipeline {
              export AWS_SHARED_CREDENTIALS_FILE=/tmp/.aws
              cd lambda
              mkdir -p packages/
-             mkdir -p lambda/layer-requests/python
+             mkdir -p layer-requests/python
              pip install virtualenv
              virtualenv .venv -p $(which python)
              source .venv/bin/activate
-             pip install -r lambda/layer-requests/requirements.txt --no-deps -t lambda/layer-requests/python/
+             pip install -r layer-requests/requirements.txt --no-deps -t lambda/layer-requests/python/
              deactivate .venv
              rm -rf .venv
-             zip -r lambda/packages/python3-requests.zip lambda/layer-requests/python/
-             rm -rf lambda/layer-requests/python
+             zip -r packages/python3-requests.zip lambda/layer-requests/python/
+             rm -rf layer-requests/python
              cd ..
              AWS_PROFILE=dev TF_LOG=DEBUG terraform init -upgrade
              terraform apply -auto-approve
